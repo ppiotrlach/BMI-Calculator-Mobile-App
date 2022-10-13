@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
 
-const PizzaCalculator = ({backgroundColor}) => {
+const PizzaCalculator = () => {
     const [pizzaPrice, setPizzaPrice] = useState('');
     const [pizzaDiameter, setPizzaDiameter] = useState('');
 
