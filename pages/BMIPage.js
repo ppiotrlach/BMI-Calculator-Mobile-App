@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View } from 'react-native';
-import PizzaCalculator from '../components/PizzaCalculator'
+import BMICalculator from '../components/BMICalculator'
 
-const PizzaComparator = () => {
+const BMIPage = () => {
 
     return (
         <View>
             <Text style={{ padding: 10, fontSize: 32 }}>
-            🍕🍕🍕🍕🍕🍕🍕
+            BMI Calculator
             </Text>
-            <PizzaCalculator />
-            <PizzaCalculator />
+            <BMICalculator />
         </View>
     );
 }
 
-export default PizzaComparator;
+export default BMIPage;
