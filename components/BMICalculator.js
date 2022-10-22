@@ -10,6 +10,7 @@ import {
   StyleSheet,
 } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
+import { useNavigation } from "@react-navigation/native";
 
 const BMICalculator = () => {
   const [age, setAge] = useState(0);
@@ -19,6 +20,8 @@ const BMICalculator = () => {
   const [BMI, setBMI] = useState(0);
 
   const [isDataValid, setIsDataValid] = useState(false);
+
+  const navigation = useNavigation();
 
   const radioButtonsData = [
     {
@@ -110,6 +113,13 @@ const BMICalculator = () => {
           <Text style={styles.BMIresult}>
             {isDataValid ? "YOUR BMI: " + parseFloat(BMI) : ""}
           </Text>
+
+          <Button
+            onPress={() =>
+              navigation.navigate("Results", { BMIvalue: parseFloat(BMI) })
+            }
+            title="Check results"
+          />
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
