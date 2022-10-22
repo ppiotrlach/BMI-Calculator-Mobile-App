@@ -7,18 +7,18 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  StyleSheet,
 } from "react-native";
 import RadioGroup from "react-native-radio-buttons-group";
 
 const BMICalculator = () => {
-  const [pizzaPrice, setPizzaPrice] = useState("");
-  const [pizzaDiameter, setPizzaDiameter] = useState("");
-
   const [age, setAge] = useState(0);
   const [height, setHeight] = useState(0);
   const [weight, setWeight] = useState(0);
 
   const [BMI, setBMI] = useState(0);
+
+  const [isDataValid, setIsDataValid] = useState(false);
 
   const radioButtonsData = [
     {
@@ -40,6 +40,8 @@ const BMICalculator = () => {
   }
 
   const calculateBMI = () => {
+    setIsDataValid(false);
+
     //check if age is number in range 1 - 150
     if (isNaN(age) || parseFloat(age) < 1 || parseFloat(age) > 150) {
       setBMI("error_age");
@@ -62,39 +64,41 @@ const BMICalculator = () => {
     let calculatedBMI =
       parseFloat(weight) / Math.pow(parseFloat(height) / 100, 2);
     calculatedBMI = calculatedBMI.toFixed(1);
-
+    console.log(calculatedBMI);
     setBMI(calculatedBMI);
+    console.log(BMI);
+    setIsDataValid(true);
   };
 
   return (
     <KeyboardAvoidingView style={{ padding: 50 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
-          <Text>Age: </Text>
+          <Text style={styles.text}>Age: </Text>
           <TextInput
-            style={{ height: 40, fontSize: 32 }}
+            style={styles.textInput}
             type="number"
             placeholder="years"
             onChangeText={(newText) => setAge(newText)}
             defaultValue={age}
           />
-          <Text>Gender: </Text>
+          <Text style={styles.text}>Gender: </Text>
           <RadioGroup
             radioButtons={radioButtons}
             onPress={onPressRadioButton}
             layout="row"
           />
-          <Text>Height: </Text>
+          <Text style={styles.text}>Height: </Text>
           <TextInput
-            style={{ height: 40, fontSize: 32 }}
+            style={styles.textInput}
             type="number"
             placeholder="cm"
             onChangeText={(newText) => setHeight(newText)}
             defaultValue={height}
           />
-          <Text>Weight: </Text>
+          <Text style={styles.text}>Weight: </Text>
           <TextInput
-            style={{ height: 40, fontSize: 32 }}
+            style={styles.textInput}
             type="number"
             placeholder="kg"
             onChangeText={(newText) => setWeight(newText)}
@@ -103,11 +107,30 @@ const BMICalculator = () => {
 
           <Button title="Calculate BMI" onPress={() => calculateBMI()} />
 
-          <Text style={{ padding: 10, fontSize: 42 }}>YOUR BMI: {BMI}</Text>
+          <Text style={styles.BMIresult}>
+            {isDataValid ? "YOUR BMI: " + parseFloat(BMI) : ""}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 };
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 22,
+  },
+  textInput: {
+    height: 60,
+    fontSize: 32,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  BMIresult: {
+    height: 60,
+    fontSize: 32,
+    paddingTop: 20,
+  },
+});
 
 export default BMICalculator;
