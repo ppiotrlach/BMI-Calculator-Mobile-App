@@ -182,6 +182,7 @@ const BMICalculator = () => {
           <TextInput
             style={styles.textInput}
             type="number"
+            keyboardType="numeric"
             placeholder="years"
             onChangeText={(newText) => setAge(newText)}
             defaultValue={age}
@@ -196,6 +197,7 @@ const BMICalculator = () => {
           <TextInput
             style={styles.textInput}
             type="number"
+            keyboardType="numeric"
             placeholder="cm"
             onChangeText={(newText) => setHeight(newText)}
             defaultValue={height}
@@ -204,6 +206,7 @@ const BMICalculator = () => {
           <TextInput
             style={styles.textInput}
             type="number"
+            keyboardType="numeric"
             placeholder="kg"
             onChangeText={(newText) => setWeight(newText)}
             defaultValue={weight}
