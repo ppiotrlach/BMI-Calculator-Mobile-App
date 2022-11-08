@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   titleText: {
     paddingTop: 30,
     fontSize: 40,
-    fontWeight: "bold",
+    fontFamily: "PoppinsRegular",
   },
 });
 

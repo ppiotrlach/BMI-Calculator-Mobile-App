@@ -60,6 +60,7 @@ const BMICalculator = () => {
   const [radioButtons, setRadioButtons] = useState(radioButtonsData);
 
   function onPressRadioButton(radioButtonsArray) {
+    setIsDataValid(false);
     setRadioButtons(radioButtonsArray);
 
     const selectedGender = radioButtonsArray.find(
@@ -67,7 +68,6 @@ const BMICalculator = () => {
     )["value"];
 
     setGender(selectedGender);
-    console.log(selectedGender);
   }
 
   const calculateBMI = () => {
@@ -175,7 +175,7 @@ const BMICalculator = () => {
   };
 
   return (
-    <KeyboardAvoidingView style={{ padding: 50 }}>
+    <KeyboardAvoidingView style={styles.default}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           <Text style={styles.text}>Age: </Text>
@@ -184,7 +184,10 @@ const BMICalculator = () => {
             type="number"
             keyboardType="numeric"
             placeholder="years"
-            onChangeText={(newText) => setAge(newText)}
+            onChangeText={(newText) => {
+              setAge(newText);
+              setIsDataValid(false);
+            }}
             defaultValue={age}
           />
           <Text style={styles.text}>Gender: </Text>
@@ -199,7 +202,10 @@ const BMICalculator = () => {
             type="number"
             keyboardType="numeric"
             placeholder="cm"
-            onChangeText={(newText) => setHeight(newText)}
+            onChangeText={(newText) => {
+              setHeight(newText);
+              setIsDataValid(false);
+            }}
             defaultValue={height}
           />
           <Text style={styles.text}>Weight: </Text>
@@ -208,24 +214,37 @@ const BMICalculator = () => {
             type="number"
             keyboardType="numeric"
             placeholder="kg"
-            onChangeText={(newText) => setWeight(newText)}
+            onChangeText={(newText) => {
+              setWeight(newText);
+              setIsDataValid(false);
+            }}
             defaultValue={weight}
           />
 
-          <Button title="Calculate BMI" onPress={() => calculateBMI()} />
+          <Button title="Calculate" onPress={() => calculateBMI()} />
 
-          <Text style={styles.BMIresult}>
-            {isDataValid
-              ? "YOUR BMI: " + parseFloat(BMI) + " - " + interpretation
-              : ""}
-          </Text>
+          {isDataValid && (
+            <Text style={styles.BMIresult}>
+              {isDataValid
+                ? "YOUR BMI: " + parseFloat(BMI) + " - " + interpretation
+                : ""}
+            </Text>
+          )}
 
-          <Button
-            onPress={() =>
-              navigation.navigate("Results", { BMIvalue: parseFloat(BMI) })
-            }
-            title="Check results"
-          />
+          {isDataValid && (
+            <Button
+              style={styles.ButtonResults}
+              onPress={() =>
+                navigation.navigate("Results", {
+                  BMIvalue: parseFloat(BMI),
+                  BMIInterpretation: interpretation,
+                  age: age,
+                  gender: gender,
+                })
+              }
+              title="Check results"
+            />
+          )}
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
@@ -233,19 +252,27 @@ const BMICalculator = () => {
 };
 
 const styles = StyleSheet.create({
+  default: {
+    fontFamily: "PoppinsRegular",
+    padding: 50,
+  },
   text: {
-    fontSize: 22,
+    fontSize: 16,
   },
   textInput: {
     height: 60,
-    fontSize: 32,
+    fontSize: 22,
     paddingTop: 10,
     paddingBottom: 10,
   },
   BMIresult: {
     height: 60,
-    fontSize: 16,
+    fontSize: 18,
     paddingTop: 20,
+    fontFamily: "PoppinsBold",
+  },
+  ButtonResults: {
+    marginTop: 20,
   },
 });
 

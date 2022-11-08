@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Button } from "react-native";
+import { Text, StyleSheet, View, Button, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 const ResultsPage = ({ route }) => {
@@ -7,28 +7,44 @@ const ResultsPage = ({ route }) => {
 
   const BMIvalue = route.params.BMIvalue;
 
+  const interpretation = route.params.BMIInterpretation;
+
+  const gender = route.params.gender;
+
+  const age = route.params.age;
+
   return (
     <View style={styles.container}>
-      <Text style={styles.BMIScore}>Your BMI is {BMIvalue}</Text>
-      <Text style={styles.description}>
-        BMI Ranges:
-        {"\n"}
-        {"\n"}
-        below 18.5 – you're in the underweight range.
-        {"\n"}
-        between 18.5 and 24.9 – you're in the healthy weight range.
-        {"\n"}
-        between 25 and 29.9 – you're in the overweight range.
-        {"\n"}
-        between 30 and 39.9 – you're in the obese range.
-        {"\n"}
-        {"\n"}
-        {"\n"}
-        BMI Formula
-        {"\n"}
-        {"\n"}
-        weight (kg) / [height (m)]^2 {"\n"}
+      <Text style={styles.BMIScore}>
+        BMI = {BMIvalue} - {interpretation}.
       </Text>
+
+      <Image
+        style={styles.BMIequation}
+        source={require("../images/equation.png")}
+      />
+
+      {age > 20 && (
+        <Image
+          style={styles.BMIAdultImage}
+          source={require("../images/graph_adults.png")}
+        />
+      )}
+
+      {age <= 20 && gender === "male" && (
+        <Image
+          style={styles.BMIKidImage}
+          source={require("../images/graph_boys.png")}
+        />
+      )}
+
+      {age <= 20 && gender === "female" && (
+        <Image
+          style={styles.BMIKidImage}
+          source={require("../images/graph_girls.png")}
+        />
+      )}
+
       <Button onPress={() => navigation.navigate("Calculator")} title="back" />
     </View>
   );
@@ -43,8 +59,8 @@ const styles = StyleSheet.create({
   },
   BMIScore: {
     paddingTop: 30,
-    fontSize: 40,
-    fontWeight: "bold",
+    fontSize: 25,
+    fontFamily: "PoppinsBold",
   },
   description: {
     paddingTop: 40,
@@ -54,7 +70,19 @@ const styles = StyleSheet.create({
   titleText: {
     paddingTop: 30,
     fontSize: 30,
-    fontWeight: "bold",
+  },
+  BMIKidImage: {
+    flex: 1,
+    margin: 25,
+    resizeMode: "contain",
+  },
+  BMIAdultImage: {
+    flex: 1,
+    margin: 90,
+    resizeMode: "contain",
+  },
+  BMIequation: {
+    resizeMode: "center",
   },
 });
 
